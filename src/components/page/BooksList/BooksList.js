@@ -1,28 +1,27 @@
 import React, { Component } from 'react';
+import './BooksList.css';
+import Book from '../../shared/Book/Book';
 
 export default class BooksList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      books: []
-    };
+
+  renderBooks() {
+    let renderedBooks = this.props.books.map((book, index) =>
+      <Book book={book} key={index} editBook={this.editBook.bind(this)} />
+    );
+    return renderedBooks;
   }
 
-  componentDidMount() {
-    fetch("http://localhost:3004/books.json")
-      .then((response) => response.json())
-      .then((jsonResponse) => {
-        this.setState({ books: jsonResponse.data });
-      });
+  editBook(book) {
+    this.props.editBook(book);
   }
 
   render() {
-    console.log(this.state.books);
     return (
-      // {this.state.books.map((book) => {
-      //   <Book book={book} />
-      // })}
-      <div>Hey there</div>
+      <div className="books-list">
+        {this.props.books.length > 0 ?
+          this.renderBooks() :
+          <p className="loading">Loading..</p>}
+      </div>
     );
   }
 }

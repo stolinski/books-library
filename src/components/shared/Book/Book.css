@@ -1,0 +1,14 @@
+.book {
+  width: 345px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+}
+
+.book .media {
+  height: 200px;
+}
+
+.book .date {
+  font-size: 0.75rem;
+  font-style: italic;
+}
