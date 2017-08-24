@@ -3,6 +3,8 @@ import './Book.css';
 import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card';
 import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
+import ModeEdit from 'material-ui-icons/ModeEdit';
+import Delete from 'material-ui-icons/Delete';
 import placeholder from './placeholder.jpg';
 import moment from 'moment';
 
@@ -43,10 +45,10 @@ export default class Book extends Component {
           </CardContent>
           <CardActions>
             <Button dense color="primary" onClick={this.editBook.bind(this)}>
-              Edit
+              <ModeEdit /> Edit
             </Button>
             <Button dense color="accent" onClick={this.deleteBook.bind(this)}>
-              Delete
+              <Delete /> Delete
             </Button>
           </CardActions>
         </Card>
