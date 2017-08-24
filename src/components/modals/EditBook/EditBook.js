@@ -11,19 +11,45 @@ export default class EditBook extends Component {
       name: '',
       date: new Date(),
       author: '',
-      isEdit: false
+      isEdit: false,
+      nameError: {
+        error: false,
+        message: ''
+      },
+      authorError: {
+        error: false,
+        message: ''
+      },
+      bookNames: []
     };
   }
 
   componentWillUpdate(prevProps, prevState) {
     if (prevProps.open !== this.props.open) {
       console.log('book', this.props);
+      const bookNames = this.props.bookNames();
       if (this.props.book) {
         const { author, date, name } = this.props.book;
         console.log(author, date, name);
-        this.setState({ author, date, name, isEdit: true });
+        this.setState({ 
+          name, 
+          author, 
+          date, 
+          isEdit: true, 
+          bookNames, 
+          nameError: { error: false, message: '' },
+          authorError: { error: false, message: '' }
+         });
       } else {
-        this.setState({ name: '', date: new Date(), author: '', isEdit: false });
+        this.setState({
+          name: '', 
+          author: '', 
+          date: new Date(), 
+          isEdit: false, 
+          bookNames, 
+          nameError: { error: false, message: '' },
+          authorError: { error: false, message: '' }
+        });
       }
     }
   }
@@ -46,7 +72,42 @@ export default class EditBook extends Component {
   }
 
   verifyForm() {
-    return this.state.name === '' || this.state.author === '';
+    return this.state.nameError.error || this.state.author === '';
+  }
+
+  nameChange(event) {
+    const newName = event.target.value;
+    let error = {
+      error: false,
+      message: ''
+    };
+    if (newName === '') {
+      error = {
+        error: true,
+        message: 'Name is required'
+      }
+    } else if(this.state.bookNames.includes(newName)) {
+      error = {
+        error: true,
+        message: 'Name is already in use'
+      };
+    }
+    this.setState({ name: newName, nameError: error });
+  }
+
+  authorChange(event) {
+    const newAuthor = event.target.value;
+    let error = {
+      error: false,
+      message: ''
+    };
+    if(newAuthor === '') {
+      error = {
+        error: true,
+        message: 'Author is required'
+      };
+    }
+    this.setState({ author: newAuthor, authorError: error });
   }
 
   render() {
@@ -64,21 +125,22 @@ export default class EditBook extends Component {
             label="Name"
             className="modal-input"
             value={this.state.name}
-            onChange={event => this.setState({ name: event.target.value })}
+            onChange={this.nameChange.bind(this)}
             margin="normal"
             required
-            error={this.state.name === ''}
-            helperText={this.state.name === '' ? 'Name is required' : ''}
+            error={this.state.nameError.error}
+            helperText={this.state.nameError.message}
           />
           <TextField
             id="author"
             label="Author"
             className="modal-input"
             value={this.state.author}
-            onChange={event => this.setState({ author: event.target.value })}
+            onChange={this.authorChange.bind(this)}
             margin="normal"
-            error={this.state.author === ''}
-            helperText={this.state.author === '' ? 'Author is required' : ''}
+            required
+            error={this.state.authorError.error}
+            helperText={this.state.authorError.message}
           />
           <TextField
             id="date"
