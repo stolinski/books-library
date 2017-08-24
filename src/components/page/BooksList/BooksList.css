@@ -1,6 +1,6 @@
 .books-list {
   padding: 20px;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-flow: row wrap;
+  justify-content: flex-start;
 }

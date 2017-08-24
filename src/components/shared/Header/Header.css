@@ -6,3 +6,11 @@
 .title {
   flex: 1;
 }
+
+.add-button {
+  padding-top: 1.1rem;
+}
+
+.add-button svg {
+  padding-bottom: 3px;
+}

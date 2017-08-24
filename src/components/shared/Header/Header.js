@@ -3,6 +3,7 @@ import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
+import Add from 'material-ui-icons/Add';
 import './Header.css';
 
 const Header = ({createBook}) => {
@@ -14,7 +15,7 @@ const Header = ({createBook}) => {
           <Typography type="title" color="inherit" className="title">
             Books Library
           </Typography>
-          <Button color="contrast" onClick={createBook}>Add</Button>
+          <Button color="contrast" className="add-button" onClick={createBook}><Add /> <span>Add</span></Button>
         </Toolbar>
       </AppBar>
     </div>
