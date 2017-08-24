@@ -5,7 +5,7 @@ import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import './Header.css';
 
-const Header = () => {
+const Header = ({createBook}) => {
 
   return (
     <div className="header">
@@ -14,7 +14,7 @@ const Header = () => {
           <Typography type="title" color="inherit" className="title">
             Books Library
           </Typography>
-          <Button color="contrast">Add</Button>
+          <Button color="contrast" onClick={createBook}>Add</Button>
         </Toolbar>
       </AppBar>
     </div>

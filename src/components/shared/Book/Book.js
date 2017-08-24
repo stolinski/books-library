@@ -4,11 +4,16 @@ import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card';
 import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
 import placeholder from './placeholder.jpg';
+import moment from 'moment';
 
 export default class Book extends Component {
 
   editBook() {
     this.props.editBook(this.props.book);
+  }
+
+  formatDate() {
+    return moment(this.props.book.date).format('YYYY');
   }
 
   render() {
@@ -26,10 +31,10 @@ export default class Book extends Component {
               {book.name}
             </Typography>
             <Typography component="p">
-              Written by {book.author}.
+              Written by {book.author}
             </Typography>
             <Typography component="p" className="date">
-              {book.date}
+              Published in {this.formatDate()}
             </Typography>
           </CardContent>
           <CardActions>
