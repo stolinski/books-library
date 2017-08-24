@@ -12,6 +12,10 @@ export default class Book extends Component {
     this.props.editBook(this.props.book);
   }
 
+  deleteBook() {
+    this.props.deleteBook(this.props.book.id);
+  }
+
   formatDate() {
     return moment(this.props.book.date).format('YYYY');
   }
@@ -41,7 +45,7 @@ export default class Book extends Component {
             <Button dense color="primary" onClick={this.editBook.bind(this)}>
               Edit
             </Button>
-            <Button dense color="accent">
+            <Button dense color="accent" onClick={this.deleteBook.bind(this)}>
               Delete
             </Button>
           </CardActions>

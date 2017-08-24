@@ -62,6 +62,11 @@ class App extends Component {
     });
   }
 
+  deleteBook(id) {
+    let booksList = this.state.books.filter((book) => book.id !== id);
+    this.setState({books: booksList});
+  }
+
   createBook() {
     this.setState({
       selectedBook: null
@@ -75,7 +80,7 @@ class App extends Component {
       <div className="App">
         <Header createBook={this.createBook.bind(this)} />
         <div className="container">
-          <BooksList books={this.state.books} editBook={this.editBook.bind(this)} />
+          <BooksList books={this.state.books} editBook={this.editBook.bind(this)} deleteBook={this.deleteBook.bind(this)} />
         </div>
         <EditBook
           open={this.state.open}
