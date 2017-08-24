@@ -3,6 +3,7 @@ import moment from 'moment';
 import Header from './components/shared/Header/Header';
 import BooksList from './components/page/BooksList/BooksList';
 import EditBook from './components/modals/EditBook/EditBook';
+import ConfirmModal from './components/modals/ConfirmModal/ConfirmModal';
 import './App.css';
 
 class App extends Component {
@@ -13,7 +14,8 @@ class App extends Component {
     this.state = {
       books: [],
       selectedBook: null,
-      open: false
+      openEdit: false,
+      openDelete: false
     };
   }
 
@@ -31,7 +33,7 @@ class App extends Component {
       });
   }
 
-  handleRequestClose(newValue) {
+  handleEditRequestClose(newValue) {
     if(newValue) {
       let booksList = this.state.books.slice();
       console.log('before', this.state.books);
@@ -51,28 +53,40 @@ class App extends Component {
       console.log('after', booksList);
       this.setState({ books: booksList });
     }
-    this.setState({ open: false });
+    this.setState({ openEdit: false });
   }
 
   editBook(book) {
     this.setState({
       selectedBook: book
     }, () => {
-      this.setState({ open: true });
+      this.setState({ openEdit: true });
     });
   }
 
   deleteBook(id) {
-    let booksList = this.state.books.filter((book) => book.id !== id);
-    this.setState({books: booksList});
+    let booksList = this.state.books.filter((book) => book.id !== this.state.selectedBook.id);
+    this.setState({ openDelete: false }, () => {
+      this.setState({books: booksList, selectedBook: null});
+    });
   }
 
   createBook() {
     this.setState({
       selectedBook: null
     }, () => {
-      this.setState({ open: true });
+      this.setState({ openEdit: true });
     });
+  }
+
+  toggleDelete(id) {
+    for (var i = 0; i < this.state.books.length; i++) {
+      if (id === this.state.books[i].id) {
+        this.setState({ selectedBook: this.state.books[i] }, () => {
+          this.setState({ openDelete: true });
+        });
+      }
+    }
   }
 
   render() {
@@ -80,12 +94,18 @@ class App extends Component {
       <div className="App">
         <Header createBook={this.createBook.bind(this)} />
         <div className="container">
-          <BooksList books={this.state.books} editBook={this.editBook.bind(this)} deleteBook={this.deleteBook.bind(this)} />
+          <BooksList books={this.state.books} editBook={this.editBook.bind(this)} deleteBook={this.toggleDelete.bind(this)} />
         </div>
         <EditBook
           open={this.state.open}
-          onRequestClose={this.handleRequestClose.bind(this)}
+          onRequestClose={this.handleEditRequestClose.bind(this)}
           book={this.state.selectedBook}
+        />
+        <ConfirmModal
+          open={this.state.openDelete}
+          title={this.state.selectedBook ? `Delete ${this.state.selectedBook.name}` : 'Delete'}
+          message={this.state.selectedBook ? `Are you sure you want to delete ${this.state.selectedBook.name} ?` : 'No selected book'}
+          handleRequestClose={this.deleteBook.bind(this)}
         />
       </div>
     );
